@@ -1,28 +1,31 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import TodoForm from './TodoForm';
+import TodoList from './TodoList';
 import './App.css';
 
-class App extends Component {
-  render() {
+ const App = () => {
+  const [todos, setTodos] = useState([])
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <TodoForm 
+          saveTodo = {todoText => {
+            const trimmedText = todoText.trim();
+
+            if(trimmedText.length > 0) {
+              setTodos([...todos, trimmedText])
+            }
+          }} 
+        />
+        <TodoList 
+          todos={todos} 
+          deleteTodo = {todoIndex => {
+            const newTodos = todos
+              .filter((_, index) => index !== todoIndex)
+            setTodos(newTodos)
+          }}
+        />
       </div>
     );
   }
-}
 
 export default App;
